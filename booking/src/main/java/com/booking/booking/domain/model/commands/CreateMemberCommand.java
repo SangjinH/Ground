@@ -1,4 +1,4 @@
-package com.booking.domain.model.commands;
+package com.booking.booking.domain.model.commands;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

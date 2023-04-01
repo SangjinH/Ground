@@ -1,6 +1,6 @@
-package com.booking.interfaces.rest.dto;
+package com.booking.booking.interfaces.rest.dto;
 
-import com.booking.domain.model.commands.CreateMemberCommand;
+import com.booking.booking.domain.model.commands.CreateMemberCommand;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
