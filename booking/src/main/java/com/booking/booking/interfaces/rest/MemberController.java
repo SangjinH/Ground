@@ -26,8 +26,7 @@ public class MemberController {
 
     @PostMapping(MEMBER_ROOT_URL)
     public Member join(@RequestBody CreateMemberRqstDto rqstDto) {
-        Member member = memberCommandService.join(rqstDto.toCommand());
-        return member;
+        return memberCommandService.join(rqstDto.toCommand());
     }
 
     @GetMapping(MEMBER_ROOT_URL)
