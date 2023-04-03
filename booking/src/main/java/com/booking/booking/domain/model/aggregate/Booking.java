@@ -3,6 +3,8 @@ package com.booking.booking.domain.model.aggregate;
 import com.booking.booking.domain.model.entity.Member;
 import com.booking.booking.domain.model.entity.Room;
 import com.booking.booking.domain.model.valueobject.BookingStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +20,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Booking {
 
     @Id
@@ -28,13 +30,26 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member requester;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Room meetingRoom;
 
     private LocalDate bookingDate;
 
-    private BookingStatus bookingStatus;
+    private BookingStatus status;
 
     private LocalDateTime regDtm;
+
+    public static Booking createRequestBooking(Member requester, Room meetingRoom, LocalDate bookingDate) {
+        Booking booking = new Booking();
+        booking.requester = requester;
+        booking.meetingRoom = meetingRoom;
+        booking.bookingDate = bookingDate;
+        booking.status = BookingStatus.WAITING;
+        booking.regDtm = LocalDateTime.now();
+
+        requester.getBookingList().add(booking);
+        meetingRoom.getBookingList().add(booking);
+
+        return booking;
+    }
 }

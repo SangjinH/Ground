@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,10 +22,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "meetingRoom")
     private List<Booking> bookingList;
 
-    public void canBookOnRequestDate(LocalDate requestDate) {
-
+    public static Room createRoom() {
+        return new Room();
     }
 }

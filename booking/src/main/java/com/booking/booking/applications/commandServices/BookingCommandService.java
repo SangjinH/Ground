@@ -1,5 +1,7 @@
 package com.booking.booking.applications.commandServices;
 
+import com.booking.booking.domain.model.aggregate.Booking;
+import com.booking.booking.domain.model.commands.CreateBookingCommand;
 import com.booking.booking.domain.model.entity.Member;
 import com.booking.booking.domain.model.entity.Room;
 import com.booking.booking.domain.repository.BookingRepository;
@@ -24,18 +26,17 @@ public class BookingCommandService {
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
 
-    public void requestBooking(Long memberId, Long roomId, LocalDate requestDate) {
+    public void requestBooking(CreateBookingCommand command) {
 
-        Member requester = getRequesterOrElseThrow(memberId);
-        Room meetingRoom = getMeetingRoomOrElseThrow(roomId);
+        Member requester = getRequesterOrElseThrow(command.getMemberId());
+        Room meetingRoom = getMeetingRoomOrElseThrow(command.getRoomId());
 
-        meetingRoom.canBookOnRequestDate(requestDate);
-
-
+        LocalDate requestDate = command.getRequestDate();
+        if (isAvailableOnRequestDate(requestDate, meetingRoom)) {
+            Booking.createRequestBooking(requester, meetingRoom, requestDate);
+            log.info("Booking Create! requester={}, meetingRoom={}, requestDate={}", requester, meetingRoom, requestDate);
+        }
     }
-
-
-
 
 
 
@@ -47,4 +48,9 @@ public class BookingCommandService {
     private Room getMeetingRoomOrElseThrow(Long roomId) {
         return roomRepository.findById(roomId).orElseThrow(() -> new ApiException(ResponseCode.ROOM_NOT_EXIST));
     }
+
+    private boolean isAvailableOnRequestDate(LocalDate requestDate, Room meetingRoom) {
+        return bookingRepository.findByMeetingRoomAndAndBookingDate(meetingRoom, requestDate).isEmpty();
+    }
+
 }
