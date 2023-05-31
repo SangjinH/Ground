@@ -1,0 +1,8 @@
+{
+  "name": "InviteMemberToMeeting",
+  "namespace": "avro.com.booking.domain.event",
+  "type": "record",
+  "fields": [
+
+  ]
+}
