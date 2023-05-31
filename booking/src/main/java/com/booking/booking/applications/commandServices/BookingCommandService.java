@@ -33,7 +33,7 @@ public class BookingCommandService {
 
         LocalDate requestDate = command.getRequestDate();
         if (isAvailableOnRequestDate(requestDate, meetingRoom)) {
-            Booking.createRequestBooking(requester, meetingRoom, requestDate);
+            bookingRepository.save(new Booking(requester, meetingRoom, requestDate));
             log.info("Booking Create! requester={}, meetingRoom={}, requestDate={}", requester, meetingRoom, requestDate);
         }
     }

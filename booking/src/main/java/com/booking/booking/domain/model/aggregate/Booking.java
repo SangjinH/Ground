@@ -3,10 +3,10 @@ package com.booking.booking.domain.model.aggregate;
 import com.booking.booking.domain.model.entity.Member;
 import com.booking.booking.domain.model.entity.Room;
 import com.booking.booking.domain.model.valueobject.BookingStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Booking {
+public class Booking extends AbstractAggregateRoot<Booking> {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -39,17 +39,16 @@ public class Booking {
 
     private LocalDateTime regDtm;
 
-    public static Booking createRequestBooking(Member requester, Room meetingRoom, LocalDate bookingDate) {
-        Booking booking = new Booking();
-        booking.requester = requester;
-        booking.meetingRoom = meetingRoom;
-        booking.bookingDate = bookingDate;
-        booking.status = BookingStatus.WAITING;
-        booking.regDtm = LocalDateTime.now();
+    public Booking(Member requester, Room meetingRoom, LocalDate bookingDate) {
+        this.requester = requester;
+        this.meetingRoom = meetingRoom;
+        this.bookingDate = bookingDate;
+        this.status = BookingStatus.WAITING;
+        this.regDtm = LocalDateTime.now();
 
-        requester.getBookingList().add(booking);
-        meetingRoom.getBookingList().add(booking);
+        this.requester.getBookingList().add(this);
+        this.meetingRoom.getBookingList().add(this);
 
-        return booking;
+//        registerEvent(List.of(Member()));
     }
 }
