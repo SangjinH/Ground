@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Room {
     private Long id;
 
     @OneToMany(mappedBy = "meetingRoom")
-    private List<Booking> bookingList;
+    private List<Booking> bookingList = new ArrayList<>();
 
     public static Room createRoom() {
         return new Room();

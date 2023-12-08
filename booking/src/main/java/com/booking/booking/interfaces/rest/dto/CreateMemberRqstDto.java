@@ -1,9 +1,10 @@
 package com.booking.booking.interfaces.rest.dto;
 
 import com.booking.booking.domain.model.commands.CreateMemberCommand;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
