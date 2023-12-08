@@ -4,16 +4,17 @@ spring:
     username: SA
     password:
     hikari:
-      jdbc-url: jdbc:h2:mem:testdb
+      jdbc-url: jdbc:h2:tcp://localhost/~/booking
   jpa:
     open-in-view: false
     show-sql: true
-    hibernate.hbm2ddl.auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
+    hibernate:
+      ddl-auto: update
   h2:
     console:
       enabled: true
